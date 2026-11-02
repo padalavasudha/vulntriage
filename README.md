@@ -6,8 +6,7 @@ ticketed and auditable work:
 ```
 Trivy (container CVEs) ─┐
                         ├─> normalize ─> enrich (EPSS, CISA KEV) ─> context (owner, exposure,
-Prowler (AWS posture) ──┘     ATT&CK, suppressions) ─> score (P1–P4 + SLA) ─> AI summary (optional)
-                              ─> tickets (Jira / GitHub) + Splunk (HEC) ─> report + audit evidence
+Prowler (AWS posture) ──┘     ATT&CK, suppressions) ─> score (P1–P4 + SLA) ─> tickets (Jira / GitHub) + Splunk (HEC) ─> report + audit evidence
 ```
 
 **Why:** scanners produce thousands of findings, and CVSS alone says how *bad* a
@@ -24,7 +23,6 @@ context into a priority with an SLA, and records the reason for every decision.
 | Context | Asset owner, environment and internet exposure (`config/assets.yaml`); MITRE ATT&CK mapping for cloud misconfigurations |
 | Suppress | Verified false positives and accepted risks, each with reason, owner and **expiry** (`config/suppressions.yaml`) |
 | Score | Rule-based, explainable points to P1–P4 and an SLA due date (`config/policy.yaml`) |
-| AI | Optional plain-English summary and fix suggestion per P1/P2 finding. **The LLM never changes priority.** |
 | Ticket | **Jira Cloud** (or GitHub Issues), de-duplicated by a stable fingerprint |
 | SIEM | Every finding sent to **Splunk** through the HTTP Event Collector, with SLA dashboards |
 | Report | `out/report.md`, `out/findings.json`, `out/compliance_evidence.csv` (PASS and FAIL per control, for audits) |
@@ -101,15 +99,15 @@ export SPLUNK_HEC_TOKEN=...
 python -m vulntriage.cli --trivy "scans/trivy-*.json" --prowler "scans/*.ocsf.json" \
   --splunk-hec-url https://localhost:8088 --splunk-insecure
 
-# 5. Optional AI summaries
-export ANTHROPIC_API_KEY=...
-python -m vulntriage.cli ... --llm
 ```
 
 Scanner output formats change between versions. If a field comes back empty, inspect a
 record (`jq '.[0]' scans/*.ocsf.json`) and adjust the paths in `vulntriage/parsers.py`.
 
 ## Splunk lab (local, free)
+![Vulnerability SLA dashboard in Splunk](docs/splunk-dashboard.png)
+
+Every run re-sends all findings, so the panels keep only the latest event per finding (`dedup fingerprint`).
 
 ```bash
 docker run -d --name splunk -p 8000:8000 -p 8088:8088 \
@@ -137,3 +135,10 @@ Dashboard searches are in `detections/vulntriage_dashboards.spl`.
 - Tickets are created but not auto-closed; next step is closing tickets when a re-scan no longer finds the issue.
 - Reachability analysis (is the vulnerable function actually called?) is manual, recorded as a suppression.
 - Next: run on a schedule, auto-close Jira tickets on clean re-scans, and add runtime signals from Falco.
+
+## Author
+```bash
+Vasudha Padala
+Master in Computer Science
+University of Southern California
+```
