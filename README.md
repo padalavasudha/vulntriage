@@ -8,7 +8,7 @@ Trivy (container CVEs) ─┐
                         ├─> normalize ─> enrich (EPSS, CISA KEV) ─> context (owner, exposure,
 Prowler (AWS posture) ──┘     ATT&CK, suppressions) ─> score (P1–P4 + SLA) ─> tickets (Jira / GitHub) + Splunk (HEC) ─> report + audit evidence
 ```
-
+![Architecture](docs/vulntriage-thumbnail.png)
 **Why:** scanners produce thousands of findings, and CVSS alone says how *bad* a
 vulnerability could be, not how *likely* it is to be exploited or whether it matters here.
 This pipeline combines severity, exploit likelihood, active exploitation and business
