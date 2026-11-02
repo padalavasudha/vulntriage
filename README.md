@@ -5,7 +5,7 @@ Cloud vulnerability triage for container images and AWS, ranked into a fix-first
 ```
 Trivy (container CVEs) ─┐
                         ├─> normalize ─> enrich (EPSS, CISA KEV) ─> context (owner, exposure,
-Prowler (AWS posture) ──┘     ATT&CK, suppressions) ─> score (P1–P4 + SLA) ─> tickets (Jira / GitHub) + Splunk (HEC) ─> report + audit evidence
+Prowler (AWS posture) ──┘     ATT&CK, suppressions) ─> score (P1–P4 + SLA) ─> tickets (GitHub) + Splunk (HEC) ─> report + audit evidence
 ```
 ![Architecture](docs/vulntriage-thumbnail.png)
 **Why:** scanners produce thousands of findings, and CVSS alone says how *bad* a
