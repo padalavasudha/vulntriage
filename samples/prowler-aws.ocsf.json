@@ -1,0 +1,218 @@
+[
+  {
+    "metadata": {
+      "event_code": "s3_bucket_public_access",
+      "product": {
+        "name": "Prowler"
+      }
+    },
+    "severity": "High",
+    "status_code": "FAIL",
+    "finding_info": {
+      "title": "Ensure there are no S3 buckets open to everyone or any authenticated AWS user",
+      "uid": "prowler-aws-s3_bucket_public_access-111122223333-us-east-2"
+    },
+    "resources": [
+      {
+        "uid": "arn:aws:s3:::demo-public-assets",
+        "region": "us-east-2"
+      }
+    ],
+    "cloud": {
+      "account": {
+        "uid": "111122223333"
+      },
+      "region": "us-east-2"
+    },
+    "remediation": {
+      "desc": "Enable S3 Block Public Access at the account and bucket level."
+    },
+    "unmapped": {
+      "compliance": {
+        "CIS-3.0": [
+          "2.1.4"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "event_code": "iam_root_mfa_enabled",
+      "product": {
+        "name": "Prowler"
+      }
+    },
+    "severity": "Critical",
+    "status_code": "FAIL",
+    "finding_info": {
+      "title": "Ensure MFA is enabled for the root account",
+      "uid": "prowler-aws-iam_root_mfa_enabled-111122223333-us-east-1"
+    },
+    "resources": [
+      {
+        "uid": "arn:aws:iam::111122223333:root",
+        "region": "us-east-1"
+      }
+    ],
+    "cloud": {
+      "account": {
+        "uid": "111122223333"
+      },
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "Enable a hardware or virtual MFA device for the root user."
+    },
+    "unmapped": {
+      "compliance": {
+        "CIS-3.0": [
+          "1.5"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "event_code": "cloudtrail_multi_region_enabled",
+      "product": {
+        "name": "Prowler"
+      }
+    },
+    "severity": "High",
+    "status_code": "PASS",
+    "finding_info": {
+      "title": "Ensure CloudTrail is enabled in all regions",
+      "uid": "prowler-aws-cloudtrail_multi_region_enabled-111122223333-us-east-2"
+    },
+    "resources": [
+      {
+        "uid": "arn:aws:cloudtrail:us-east-2:111122223333:trail/org-trail",
+        "region": "us-east-2"
+      }
+    ],
+    "cloud": {
+      "account": {
+        "uid": "111122223333"
+      },
+      "region": "us-east-2"
+    },
+    "remediation": {
+      "desc": "Create a multi-region trail."
+    },
+    "unmapped": {
+      "compliance": {
+        "CIS-3.0": [
+          "3.1"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "event_code": "ec2_securitygroup_allow_ingress_from_internet_to_tcp_port_22",
+      "product": {
+        "name": "Prowler"
+      }
+    },
+    "severity": "High",
+    "status_code": "FAIL",
+    "finding_info": {
+      "title": "Ensure no security groups allow ingress from 0.0.0.0/0 or ::/0 to SSH port 22",
+      "uid": "prowler-aws-ec2_securitygroup_allow_ingress_from_internet_to_tcp_port_22-111122223333-us-east-2"
+    },
+    "resources": [
+      {
+        "uid": "arn:aws:ec2:us-east-2:111122223333:security-group/sg-0abc1234def567890",
+        "region": "us-east-2"
+      }
+    ],
+    "cloud": {
+      "account": {
+        "uid": "111122223333"
+      },
+      "region": "us-east-2"
+    },
+    "remediation": {
+      "desc": "Restrict SSH to known ranges or use Systems Manager Session Manager."
+    },
+    "unmapped": {
+      "compliance": {
+        "CIS-3.0": [
+          "5.2"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "event_code": "ec2_instance_imdsv2_enabled",
+      "product": {
+        "name": "Prowler"
+      }
+    },
+    "severity": "Medium",
+    "status_code": "FAIL",
+    "finding_info": {
+      "title": "Ensure EC2 instances require IMDSv2",
+      "uid": "prowler-aws-ec2_instance_imdsv2_enabled-111122223333-us-east-2"
+    },
+    "resources": [
+      {
+        "uid": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0",
+        "region": "us-east-2"
+      }
+    ],
+    "cloud": {
+      "account": {
+        "uid": "111122223333"
+      },
+      "region": "us-east-2"
+    },
+    "remediation": {
+      "desc": "Set HttpTokens=required on the instance metadata options."
+    },
+    "unmapped": {
+      "compliance": {
+        "CIS-3.0": [
+          "5.6"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "event_code": "iam_rotate_access_key_90_days",
+      "product": {
+        "name": "Prowler"
+      }
+    },
+    "severity": "Medium",
+    "status_code": "FAIL",
+    "finding_info": {
+      "title": "Ensure access keys are rotated every 90 days or less",
+      "uid": "prowler-aws-iam_rotate_access_key_90_days-111122223333-us-east-1"
+    },
+    "resources": [
+      {
+        "uid": "arn:aws:iam::111122223333:user/ci-deployer",
+        "region": "us-east-1"
+      }
+    ],
+    "cloud": {
+      "account": {
+        "uid": "111122223333"
+      },
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "Rotate the key, or better, replace it with a role and short-lived credentials."
+    },
+    "unmapped": {
+      "compliance": {
+        "CIS-3.0": [
+          "1.14"
+        ]
+      }
+    }
+  }
+]

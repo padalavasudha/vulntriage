@@ -1,0 +1,27 @@
+# Accepted risks and verified false positives.
+# Every entry needs a reason, an owner and an expiry date; expired entries resurface for review.
+suppressions:
+  - rule_id: CVE-2022-0778
+    resource: "batch-worker:*"
+    type: false-positive
+    reason: "Service never parses untrusted certificates; vulnerable code path not reachable (validated with the owning team)"
+    owner: data-platform-team
+    expires: 2027-03-31
+  - rule_id: CVE-2023-5678
+    resource: "shop-api:*"
+    type: accepted-risk
+    reason: "Low impact; waiting for base image update"
+    owner: web-platform-team
+    expires: 2026-09-30
+  - rule_id: iam_role_access_not_stale_to_bedrock
+    resource: "arn:aws:iam::*:role/aws-service-role/*"
+    type: false-positive
+    reason: "AWS-managed service-linked role; its permissions cannot be changed by the account"
+    owner: cloud-platform-team
+    expires: 2027-05-01
+  - rule_id: iam_root_credentials_management_enabled
+    resource: "*"
+    type: not-applicable
+    reason: "Standalone account, not in an AWS Organization; centralized root management requires one"
+    owner: cloud-platform-team
+    expires: 2027-05-01

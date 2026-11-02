@@ -1,0 +1,64 @@
+{
+  "_note": "ILLUSTRATIVE SAMPLE DATA for offline demo. Run real scans for real results.",
+  "SchemaVersion": 2,
+  "ArtifactName": "batch-worker:2.0",
+  "ArtifactType": "container_image",
+  "Results": [
+    {
+      "Target": "batch-worker:2.0 (debian 11)",
+      "Class": "os-pkgs",
+      "Type": "debian",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2022-0778",
+          "PkgName": "openssl",
+          "InstalledVersion": "1.1.1k-1",
+          "FixedVersion": "1.1.1n-0+deb11u1",
+          "Severity": "HIGH",
+          "Title": "openssl: infinite loop in BN_mod_sqrt() reachable when parsing certificates",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-0778",
+          "CVSS": {
+            "nvd": {
+              "V3Score": 7.5
+            }
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2019-12900",
+          "PkgName": "bzip2",
+          "InstalledVersion": "1.0.6-9",
+          "FixedVersion": "1.0.6-9.2",
+          "Severity": "CRITICAL",
+          "Title": "bzip2: out-of-bounds write in function BZ2_decompress",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-12900",
+          "CVSS": {
+            "nvd": {
+              "V3Score": 9.8
+            }
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2022-3715",
+          "PkgName": "bash",
+          "InstalledVersion": "5.1-2",
+          "FixedVersion": "5.1-2+deb11u1",
+          "Severity": "HIGH",
+          "Title": "bash: a heap-buffer-overflow in valid_parameter_transform",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-3715",
+          "CVSS": {
+            "nvd": {
+              "V3Score": 7.8
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "Metadata": {
+    "OS": {
+      "Family": "debian",
+      "Name": "11.3",
+      "EOSL": true
+    }
+  }
+}

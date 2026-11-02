@@ -1,0 +1,44 @@
+``` Dashboard searches for vulntriage findings sent through HEC (sourcetype vulntriage:finding).
+    Splunk extracts the JSON fields automatically; do not add `spath` (it duplicates values
+    and doubles counts). Arrays appear with {} (for example mitre{}).
+    Every run re-sends all findings, so each panel keeps only the latest event per finding
+    (`dedup fingerprint`, then filter; Splunk returns newest first, so a finding fixed in the
+    latest run drops out). Without it, counts grow with every run.
+    Save each as a dashboard panel: Search -> Save As -> Dashboard Panel. ```
+
+``` Panel 1: open findings by priority ```
+sourcetype="vulntriage:finding"
+| dedup fingerprint
+| search open=true
+| stats count by priority
+| sort priority
+
+``` Panel 2: overdue findings by owning team (SLA enforcement) ```
+sourcetype="vulntriage:finding"
+| dedup fingerprint
+| search open=true
+| eval due_epoch=strptime(due_date, "%Y-%m-%d")
+| where due_epoch < now()
+| stats count as overdue values(rule_id) as findings by owner
+| sort - overdue
+
+``` Panel 3: actively exploited (CISA KEV) and still open ```
+sourcetype="vulntriage:finding"
+| dedup fingerprint
+| search open=true kev=true
+| table rule_id package resource owner priority due_date epss
+
+``` Panel 4: misconfigurations mapped to MITRE ATT&CK ```
+sourcetype="vulntriage:finding"
+| dedup fingerprint
+| search kind=misconfiguration open=true
+| rename "mitre{}" as mitre
+| mvexpand mitre
+| stats count by mitre
+| sort - count
+
+``` Panel 5: suppressions (accepted risk and false positives) for review ```
+sourcetype="vulntriage:finding"
+| dedup fingerprint
+| search suppressed=true
+| table rule_id resource suppression_note

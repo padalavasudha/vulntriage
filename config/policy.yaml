@@ -1,0 +1,10 @@
+# Remediation SLAs (days) by priority. Adjust to your organization's policy.
+sla_days:
+  P1: 7
+  P2: 30
+  P3: 90
+  P4: 180
+
+# P1 for a vulnerability requires a sign of real-world exploitation
+# (on CISA KEV, or EPSS >= 0.10). Without it, the finding is capped at P2.
+p1_requires_exploit_signal: true

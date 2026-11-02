@@ -1,0 +1,14 @@
+# Scan results and outputs contain account IDs and resource names: never commit them
+out/
+out-*/
+scans/
+*.ocsf.json
+.cache/
+# Local environment and secrets
+.venv/
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+!samples/*.ocsf.json

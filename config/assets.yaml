@@ -1,0 +1,39 @@
+# Business context for prioritization. First matching pattern wins.
+# exposure: internet | internal     environment: prod | staging | dev
+assets:
+  - match: "nginx:*"
+    owner: web-team
+    environment: prod
+    exposure: internet
+  - match: "python:*"
+    owner: data-team
+    environment: prod
+    exposure: internal
+  - match: "shop-api:*"
+    owner: web-platform-team
+    environment: prod
+    exposure: internet
+  - match: "batch-worker:*"
+    owner: data-platform-team
+    environment: prod
+    exposure: internal
+  - match: "arn:aws:s3:::*"
+    owner: cloud-platform-team
+    environment: prod
+    exposure: internal
+  - match: "arn:aws:ec2:*"
+    owner: cloud-platform-team
+    environment: prod
+    exposure: internal
+  - match: "arn:aws:iam::*"
+    owner: cloud-platform-team
+    environment: prod
+    exposure: internal
+  - match: "arn:aws:*"
+    owner: cloud-platform-team
+    environment: prod
+    exposure: internal
+default:
+  owner: unassigned
+  environment: unknown
+  exposure: internal

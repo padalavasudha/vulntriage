@@ -1,0 +1,40 @@
+{
+  "_note": "ILLUSTRATIVE SAMPLE DATA for offline demo. Run real scans for real results. EPSS values are placeholders, not real scores.",
+  "data": [
+    {
+      "cve": "CVE-2021-44228",
+      "epss": "0.944",
+      "percentile": "0.999"
+    },
+    {
+      "cve": "CVE-2023-44487",
+      "epss": "0.820",
+      "percentile": "0.992"
+    },
+    {
+      "cve": "CVE-2023-4863",
+      "epss": "0.410",
+      "percentile": "0.973"
+    },
+    {
+      "cve": "CVE-2022-0778",
+      "epss": "0.012",
+      "percentile": "0.780"
+    },
+    {
+      "cve": "CVE-2019-12900",
+      "epss": "0.004",
+      "percentile": "0.700"
+    },
+    {
+      "cve": "CVE-2022-3715",
+      "epss": "0.002",
+      "percentile": "0.550"
+    },
+    {
+      "cve": "CVE-2023-5678",
+      "epss": "0.003",
+      "percentile": "0.600"
+    }
+  ]
+}

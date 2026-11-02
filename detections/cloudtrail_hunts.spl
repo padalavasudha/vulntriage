@@ -1,0 +1,32 @@
+``` Hunting and detection queries for AWS CloudTrail in Splunk.
+    Assumes the Splunk Add-on for AWS (sourcetype aws:cloudtrail). Adjust index names to your environment.
+    Each query: hypothesis -> MITRE ATT&CK technique -> SPL. ```
+
+``` 1. Hypothesis: an attacker disables logging to hide activity.
+    ATT&CK T1562.008 Impair Defenses: Disable or Modify Cloud Logs ```
+index=aws sourcetype=aws:cloudtrail eventName IN ("StopLogging", "DeleteTrail", "UpdateTrail", "PutEventSelectors")
+| stats count min(_time) as first_seen max(_time) as last_seen by userIdentity.arn, eventName, sourceIPAddress, awsRegion
+| convert ctime(first_seen) ctime(last_seen)
+
+``` 2. Hypothesis: stolen credentials are being tested (bursts of access-denied errors across many APIs).
+    ATT&CK T1078.004 Valid Accounts: Cloud Accounts / T1526 Cloud Service Discovery ```
+index=aws sourcetype=aws:cloudtrail errorCode IN ("AccessDenied", "UnauthorizedOperation", "Client.UnauthorizedOperation")
+| bin _time span=10m
+| stats count as denied dc(eventName) as distinct_apis values(eventName) as apis by _time, userIdentity.arn, sourceIPAddress
+| where denied > 20 AND distinct_apis > 5
+
+``` 3. Hypothesis: someone creates new long-lived keys for persistence.
+    ATT&CK T1098.001 Account Manipulation: Additional Cloud Credentials ```
+index=aws sourcetype=aws:cloudtrail eventName="CreateAccessKey"
+| eval actor='userIdentity.arn', target='requestParameters.userName'
+| table _time actor target sourceIPAddress userAgent
+
+``` 4. Hypothesis: console logins without MFA.
+    ATT&CK T1078.004 Valid Accounts: Cloud Accounts ```
+index=aws sourcetype=aws:cloudtrail eventName="ConsoleLogin" "additionalEventData.MFAUsed"="No" "responseElements.ConsoleLogin"="Success"
+| stats count by userIdentity.arn, sourceIPAddress
+
+``` 5. Hypothesis: a bucket is made public (data exposure).
+    ATT&CK T1530 Data from Cloud Storage ```
+index=aws sourcetype=aws:cloudtrail eventName IN ("PutBucketPolicy", "PutBucketAcl", "DeletePublicAccessBlock", "PutBucketPublicAccessBlock")
+| table _time userIdentity.arn eventName requestParameters.bucketName sourceIPAddress
