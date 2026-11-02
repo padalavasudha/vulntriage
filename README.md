@@ -1,4 +1,4 @@
-# vulntriage
+# Vulnerability Triage - vulntriage
 
 A small security-operations pipeline that turns raw scanner output into prioritized,
 ticketed and auditable work:
